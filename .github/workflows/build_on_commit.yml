@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -18,12 +17,6 @@ jobs:
       with:
         release: '9-2019-q4'
 
-    # Build with make
-    - name: make
-      env: 
-        VARIANT: VARIANT_ADC
-      run: make
-
     # Build with Platformio
     - name: PlatformIO Install
       run: |
@@ -32,10 +25,10 @@ jobs:
     - name: PlatformIO Run
       run: pio run
 
-    - name: 'Upload Build Artifact'
-      uses: actions/upload-artifact@v3
+    # Upload build artifact
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v4
       with:
         path: ${{github.workspace}}/.pio/build/**
         name: ${{github.event.repository.name}}_build_${{github.run_number}}
-        retention-days: 5
-
+        retention-days: 7
